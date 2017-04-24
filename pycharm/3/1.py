@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy.stats as sps
+from math import *
 
 
 def part1():
@@ -14,22 +15,20 @@ def part1():
     plt.show()
 
 
-def draw(function, xi_label):
+def draw(xi_label, function, integral):
     grid = np.linspace(0, 5, 1000)
     plt.figure(figsize=(15, 5))
     plt.plot(grid, [function(x) for x in grid], lw=3, label='${}$'.format(xi_label))
     for λ, color in [(1, 'red'), (3, 'green'), (10, 'cyan')]:
-        distribution = sps.expon(scale=1 / λ)
         # [0, 5) = [0, 1) ⨆ ... ⨆ [4, 5)
         # D_i := [i, i + 1)
         for i in range(5):  # события из сигма-алгебры
-            # E(ξI_{D_i})
-            expect = distribution.expect(function, lb=i, ub=i + 1)
+            # Для графика ξ: E(ξ * I_{D_i}) = int λ * x * exp(-λx) = -exp(-λx)(λx+1)/λ from i to i+1
+            # Для графика ξ^2: E(ξ^2 * I_{D_i}) = int λ * x^2 * exp(-λx) = -exp(-λx)(λ^2*x^2 + 2λx + 2) / λ^2 from i to i+1
+            expect = integral(λ, i + 1) - integral(λ, i)
 
-            # P(D_i)
-            p_d_i = distribution.expect(lambda x: 1, lb=i, ub=i + 1)
-            # вот так не хватает точности:
-            # p_d_i = distribution.cdf(i + 1) - distribution.cdf(i)
+            # P(D_i) = P([i, i + 1)) = (1 - exp(-λ(i+1))) - (1 - exp(-λi))
+            p_d_i = exp(-λ * i) - exp(-λ * (i + 1))
 
             plt.hlines(expect / p_d_i, i, i + 1, color=color, lw=3, label=('$\\mathsf{{E}}({}|\\mathcal{{G}})$ при $\\lambda = {}$'.format(xi_label, λ) if i == 0 else ''))
         plt.xlabel('$\\Omega$', fontsize=20)
@@ -38,5 +37,5 @@ def draw(function, xi_label):
     plt.show()
 
 
-draw(lambda x: x, '\\xi')
-draw(lambda x: x * x, '\\xi^2')
+draw('\\xi', lambda x: x, lambda λ, x: -exp(-λ * x) * (λ * x + 1) / λ)
+draw('\\xi^2', lambda x: x * x, lambda λ, x: -exp(-λ * x) * (λ ** 2 * x ** 2 + 2 * λ * x + 2) / λ ** 2)
