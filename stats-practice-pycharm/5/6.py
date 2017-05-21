@@ -1,8 +1,8 @@
 import numpy as np
 import scipy.stats as sps
 import matplotlib.pyplot as plt
-from IPython.display import HTML, display
 import tabulate
+from IPython.display import HTML, display
 
 
 def print_table(values, минимальное_значение_p_при_котором_не_отвергаем=0.5):
