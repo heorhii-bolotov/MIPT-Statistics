@@ -56,15 +56,15 @@ linear_regression = LinearRegression().fit(regressor, ic)
 linear_regression.summary()
 
 # график для модели ic = θ1 + θ2*t
-# plt.figure(figsize=(13, 10))
-# plt.ylabel('Потребление мороженого')
-# plt.xlabel('Температура')
-# temperature_grid = np.linspace(temperature.min() - 5, temperature.max() + 5)
-# temperature_grid_predict = linear_regression.predict(np.column_stack((np.ones_like(temperature_grid), temperature_grid)))
-# plt.plot(temperature_grid, temperature_grid_predict)
-# plt.scatter(temperature, ic, color='red')
-# plt.title(r'Модель $ic = θ1 + θ2*t$')
-# plt.show()
+plt.figure(figsize=(13, 10))
+plt.ylabel('Потребление мороженого')
+plt.xlabel('Температура')
+temperature_grid = np.linspace(temperature.min() - 5, temperature.max() + 5)
+temperature_grid_predict = linear_regression.predict(np.column_stack((np.ones_like(temperature_grid), temperature_grid)))
+plt.plot(temperature_grid, temperature_grid_predict)
+plt.scatter(temperature, ic, color='red')
+plt.title(r'Модель $ic = θ1 + θ2*t$')
+plt.show()
 
 # модель ic = θ1 + θ2*t + θ3*y1 + θ4*y2
 years = data['Year'].values
@@ -73,42 +73,42 @@ linear_regression = LinearRegression().fit(regressor, ic)
 linear_regression.summary()
 
 # график для модели ic = θ1 + θ2*t + θ3*y1 + θ4*y2
-# plt.figure(figsize=(13, 10))
-# plt.ylabel('Потребление мороженого')
-# plt.xlabel('Температура')
-# for year in range(3):
-#     temperature_grid = np.linspace(temperature.min() - 5, temperature.max() + 5)
-#     temperature_grid_predict = linear_regression.predict(np.column_stack(
-#         (np.ones_like(temperature_grid),
-#          temperature_grid,
-#          np.full_like(temperature_grid, year == 1),
-#          np.full_like(temperature_grid, year == 2))))
-#     plt.plot(temperature_grid, temperature_grid_predict,
-#              label='Модель ic = θ1 + θ2*t + θ3*y1 + θ4*y2, y1={}, y2={}'.format(year == 1, year == 2))
-#     indixes = years == year
-#     plt.scatter(temperature[indixes], ic[indixes], label='точки выборки, год {}'.format(year))
-# plt.title(r'Модель $ic = θ1 + θ2*t + θ3*y1 + θ4*y2$')
-# plt.legend()
-# plt.show()
+plt.figure(figsize=(13, 10))
+plt.ylabel('Потребление мороженого')
+plt.xlabel('Температура')
+for year in range(3):
+    temperature_grid = np.linspace(temperature.min() - 5, temperature.max() + 5)
+    temperature_grid_predict = linear_regression.predict(np.column_stack(
+        (np.ones_like(temperature_grid),
+         temperature_grid,
+         np.full_like(temperature_grid, year == 1),
+         np.full_like(temperature_grid, year == 2))))
+    plt.plot(temperature_grid, temperature_grid_predict,
+             label='Модель ic = θ1 + θ2*t + θ3*y1 + θ4*y2, y1={}, y2={}'.format(year == 1, year == 2))
+    indixes = years == year
+    plt.scatter(temperature[indixes], ic[indixes], label='точки выборки, год {}'.format(year))
+plt.title(r'Модель $ic = θ1 + θ2*t + θ3*y1 + θ4*y2$')
+plt.legend()
+plt.show()
 
 # модель ic = θ1 + θ2*t, отдельно для каждого года
-# plt.figure(figsize=(13, 10))
-# plt.ylabel('Потребление мороженого')
-# plt.xlabel('Температура')
-# for year in range(3):
-#     indixes = years == year
-#     temperature_year = temperature[indixes]
-#     ic_year = ic[indixes]
-#
-#     regressor = np.column_stack((np.ones_like(temperature_year), temperature_year))
-#     linear_regression = LinearRegression().fit(regressor, ic_year)
-#     temperature_grid = np.linspace(temperature.min() - 5, temperature.max() + 5)
-#     temperature_grid_predict = linear_regression.predict(np.column_stack((np.ones_like(temperature_grid), temperature_grid)))
-#     plt.plot(temperature_grid, temperature_grid_predict, label='Модель ic = θ1 + θ2*t, год {}'.format(year))
-#     plt.scatter(temperature_year, ic_year, label='точки выборки, год {}'.format(year))
-# plt.title(r'Модель $ic = θ1 + θ2*t$, отдельно для каждого года')
-# plt.legend()
-# plt.show()
+plt.figure(figsize=(13, 10))
+plt.ylabel('Потребление мороженого')
+plt.xlabel('Температура')
+for year in range(3):
+    indixes = years == year
+    temperature_year = temperature[indixes]
+    ic_year = ic[indixes]
+
+    regressor = np.column_stack((np.ones_like(temperature_year), temperature_year))
+    linear_regression = LinearRegression().fit(regressor, ic_year)
+    temperature_grid = np.linspace(temperature.min() - 5, temperature.max() + 5)
+    temperature_grid_predict = linear_regression.predict(np.column_stack((np.ones_like(temperature_grid), temperature_grid)))
+    plt.plot(temperature_grid, temperature_grid_predict, label='Модель ic = θ1 + θ2*t, год {}'.format(year))
+    plt.scatter(temperature_year, ic_year, label='точки выборки, год {}'.format(year))
+plt.title(r'Модель $ic = θ1 + θ2*t$, отдельно для каждого года')
+plt.legend()
+plt.show()
 
 # модель ic = θ1 + θ2*t + θ3*y1 + θ4*y2 + θ5*price + θ6*income + θ7*lag_temp
 price = data['price'].values
@@ -135,20 +135,19 @@ linear_regression = LinearRegression().fit(regressor, ic)
 linear_regression.summary()
 
 # график для модели ic = θ1 + θ2*t + θ3*t**2 + θ3*t**3
-# plt.figure(figsize=(13, 10))
-# plt.ylabel('Потребление мороженого')
-# plt.xlabel('Температура')
-# temperature_grid = np.linspace(temperature.min() - 5, temperature.max() + 5)
-# temperature_grid_predict = linear_regression.predict(np.column_stack(
-#     (np.ones_like(temperature_grid),
-#      temperature_grid,
-#      temperature_grid ** 2,
-#      temperature_grid ** 3)))
-# plt.plot(temperature_grid, temperature_grid_predict)
-# plt.scatter(temperature, ic, color='red')
-# plt.title(r'Модель $ic = θ1 + θ2*t + θ3*t^2 + θ3*t^3$')
-# plt.show()
-
+plt.figure(figsize=(13, 10))
+plt.ylabel('Потребление мороженого')
+plt.xlabel('Температура')
+temperature_grid = np.linspace(temperature.min() - 5, temperature.max() + 5)
+temperature_grid_predict = linear_regression.predict(np.column_stack(
+    (np.ones_like(temperature_grid),
+     temperature_grid,
+     temperature_grid ** 2,
+     temperature_grid ** 3)))
+plt.plot(temperature_grid, temperature_grid_predict)
+plt.scatter(temperature, ic, color='red')
+plt.title(r'Модель $ic = θ1 + θ2*t + θ3*t^2 + θ3*t^3$')
+plt.show()
 
 # собственные значения
 eigvals = scipy.linalg.eigvals(linear_regression.inv_of_xt_dot_x)
